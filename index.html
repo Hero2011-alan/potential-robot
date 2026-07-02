@@ -3,64 +3,404 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Test Website</title>
+    <title>Aroma & Co. | Artisan Coffee</title>
     
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+
     <style>
+        /* --- DESIGN SYSTEM & VARIABLES --- */
+        :root {
+            --dark-coffee: #1e140f;
+            --warm-brown: #4a3525;
+            --accent-gold: #c89d7c;
+            --cream: #fdfaf6;
+            --soft-tan: #f3ece4;
+            --text-dark: #2c2520;
+            --text-light: #fdfaf6;
+            
+            /* Satisfying Easing Curve (Ease-Out Expo) */
+            --transition-smooth: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* --- BASE STYLES --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #e9ecef;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--cream);
+            color: var(--text-dark);
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* --- NAVBAR --- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 100;
+            transition: var(--transition-smooth);
+        }
+
+        header.scrolled {
+            background-color: rgba(30, 20, 15, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 12px 8%;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            color: var(--text-light);
+            font-size: 1.5rem;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        header.scrolled .logo {
+            color: var(--accent-gold);
+        }
+
+        nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            margin-left: 35px;
+            font-weight: 400;
+            font-size: 0.95rem;
+            position: relative;
+            padding: 5px 0;
+            transition: color 0.3s ease;
+        }
+
+        /* Satisfying Underline Slide Hover */
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: var(--accent-gold);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        nav a:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.45), rgba(0,0,0,0.65)), url('https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?q=80&w=1600&auto=format&fit=crop') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            padding: 0 8%;
+            color: var(--text-light);
+        }
+
+        .hero-content {
+            max-width: 650px;
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeInUp 1.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            animation-delay: 0.2s;
+        }
+
+        .hero h1 {
+            font-size: 4rem;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            margin-bottom: 35px;
+            color: rgba(255,255,255,0.8);
+            font-weight: 300;
+        }
+
+        /* Fluid Hover Button */
+        .btn {
+            display: inline-block;
+            padding: 14px 32px;
+            background-color: var(--accent-gold);
+            color: var(--dark-coffee);
+            text-decoration: none;
+            font-weight: 600;
+            border-radius: 50px;
+            border: 2px solid var(--accent-gold);
+            transition: var(--transition-smooth);
+        }
+
+        .btn:hover {
+            background-color: transparent;
+            color: var(--text-light);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(200, 157, 124, 0.3);
+        }
+
+        /* --- MENU SECTION --- */
+        .menu-section {
+            padding: 100px 8%;
+            text-align: center;
+        }
+
+        .section-title {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+            color: var(--dark-coffee);
+        }
+
+        .section-subtitle {
+            color: var(--warm-brown);
+            margin-bottom: 60px;
+            font-style: italic;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 40px;
+        }
+
+        /* Satisfying Card Hover Pop */
+        .menu-item {
+            background-color: var(--soft-tan);
+            border-radius: 20px;
+            padding: 30px;
+            text-align: left;
+            transition: var(--transition-smooth);
+            cursor: pointer;
+            position: relative;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        .menu-item:hover {
+            transform: translateY(-10px) scale(1.02);
+            background-color: #ffffff;
+            box-shadow: 0 20px 40px rgba(74, 53, 37, 0.08);
+        }
+
+        .menu-icon {
+            font-size: 2.5rem;
+            margin-bottom: 15px;
+            display: inline-block;
+            transition: transform 0.4s ease;
+        }
+
+        .menu-item:hover .menu-icon {
+            transform: rotate(-10deg) scale(1.1);
+        }
+
+        .menu-item h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+            color: var(--dark-coffee);
+        }
+
+        .menu-item p {
+            font-size: 0.9rem;
+            color: #666;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+
+        .menu-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .price {
+            font-weight: 600;
+            color: var(--warm-brown);
+            font-size: 1.2rem;
+        }
+
+        .order-link {
+            color: var(--accent-gold);
+            font-weight: 600;
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .menu-item:hover .order-link {
+            color: var(--dark-coffee);
+        }
+
+        /* --- QUICK VIEW MODAL (JS Driven Transitions) --- */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(30, 20, 15, 0.6);
+            backdrop-filter: blur(5px);
+            z-index: 1000;
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            margin: 0;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.4s ease;
         }
-        
-        .card {
-            background-color: #ffffff;
+
+        .modal-box {
+            background-color: var(--cream);
             padding: 40px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            text-align: center;
-            max-width: 400px;
+            border-radius: 24px;
+            max-width: 450px;
             width: 90%;
+            text-align: center;
+            box-shadow: 0 25px 50px rgba(0,0,0,0.2);
+            transform: scale(0.85) translateY(20px);
+            transition: var(--transition-smooth);
         }
-        
-        h1 {
-            color: #2c3e50;
-            margin-top: 0;
+
+        /* Active State Classes triggered by JS */
+        .modal-overlay.active {
+            opacity: 1;
+            pointer-events: auto;
         }
-        
-        p {
+
+        .modal-overlay.active .modal-box {
+            transform: scale(1) translateY(0);
+        }
+
+        .modal-box h2 {
+            font-size: 2.2rem;
+            margin-bottom: 15px;
+            color: var(--dark-coffee);
+        }
+
+        .modal-box p {
+            margin-bottom: 30px;
             color: #555;
             line-height: 1.6;
-            margin-bottom: 25px;
         }
-        
-        .test-button {
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #3498db;
-            color: #ffffff;
-            text-decoration: none;
-            border-radius: 6px;
-            font-weight: bold;
-            transition: background-color 0.3s ease;
-        }
-        
-        .test-button:hover {
-            background-color: #2980b9;
+
+        /* --- ANIMATIONS --- */
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
     </style>
 </head>
 <body>
 
-    <div class="card">
-        <h1>Test Successful! 🚀</h1>
-        <p>If you are seeing this card with a gray background and a blue button, your HTML and CSS are working perfectly together in this single file.</p>
-        <a href="#" class="test-button">Clicking does nothing</a>
+    <header id="navbar">
+        <a href="#" class="logo">AROMA & CO.</a>
+        <nav>
+            <a href="#">Home</a>
+            <a href="#menu">Menu</a>
+            <a href="#">Our Story</a>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Crave the Perfect Roast</h1>
+            <p>Step away from the rush. Experience micro-batch roasted beans brewed with clinical precision and served with warmth.</p>
+            <a href="#menu" class="btn">Explore Menu</a>
+        </div>
+    </section>
+
+    <section class="menu-section" id="menu">
+        <h2 class="section-title">Popular Brews</h2>
+        <p class="section-subtitle">Carefully curated, flawlessly extracted</p>
+        
+        <div class="menu-grid">
+            <div class="menu-item" onclick="openModal('Sea Salt Caramel Latte', 'A rich espresso base whipped with steamed whole milk, artisanal house-made sea salt caramel syrup, and topped with a velvety micro-foam layer.')">
+                <span class="menu-icon">☕</span>
+                <h3>Caramel Latte</h3>
+                <p>Espresso, steamed milk, and handmade sea salt caramel syrup.</p>
+                <div class="menu-footer">
+                    <span class="price">$5.50</span>
+                    <span class="order-link">Quick View →</span>
+                </div>
+            </div>
+
+            <div class="menu-item" onclick="openModal('Cold Drip Kyoto Style', 'Slowly dripped over pure ice water drop-by-drop for 14 hours. Yields an exceptionally clean, naturally sweet profile with dark chocolate undertones.')">
+                <span class="menu-icon">🧊</span>
+                <h3>Kyoto Cold Brew</h3>
+                <p>14-hour slow drip extraction highlighting rich floral and cocoa notes.</p>
+                <div class="menu-footer">
+                    <span class="price">$6.00</span>
+                    <span class="order-link">Quick View →</span>
+                </div>
+            </div>
+
+            <div class="menu-item" onclick="openModal('Velvet Flat White', 'Double ristretto shot extracted over silky, precisely textured micro-foam milk creating a perfect velvety emulsion.')">
+                <span class="menu-icon">🥛</span>
+                <h3>Velvet Flat White</h3>
+                <p>Double shot ristretto paired with tightly micro-textured smooth milk.</p>
+                <div class="menu-footer">
+                    <span class="price">$4.75</span>
+                    <span class="order-link">Quick View →</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="modal-overlay" id="modalOverlay" onclick="closeModal()">
+        <div class="modal-box" onclick="event.stopPropagation()">
+            <span style="font-size: 3rem; display: block; margin-bottom: 10px;">🌟</span>
+            <h2 id="modalTitle">Product Title</h2>
+            <p id="modalDescription">Product Description goes here.</p>
+            <button class="btn" onclick="closeModal()">Looks Good</button>
+        </div>
     </div>
 
+    <script>
+        // 1. Dynamic Navbar Scroll Effect
+        const navbar = document.getElementById('navbar');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 50) {
+                navbar.classList.add('scrolled');
+            } else {
+                navbar.classList.remove('scrolled');
+            }
+        });
+
+        // 2. Smooth Modal Transitions
+        const modalOverlay = document.getElementById('modalOverlay');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDescription = document.getElementById('modalDescription');
+
+        function openModal(title, description) {
+            modalTitle.innerText = title;
+            modalDescription.innerText = description;
+            modalOverlay.classList.add('active');
+        }
+
+        function closeModal() {
+            modalOverlay.classList.remove('active');
+        }
+    </script>
 </body>
 </html>
